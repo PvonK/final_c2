@@ -82,7 +82,7 @@ class Quicksort():
         r=self._sort(toSort)
         time_end = time.perf_counter()
         self.time = time_end-time_start
-        return r, time_end-time_start
+        return r, time_end-time_start, self.__str__()
 
 
     def __str__(self):
@@ -108,7 +108,7 @@ class Bubble():
 
         time_end = time.perf_counter()
         self.time = time_end-time_start
-        return self.toSort, time_end-time_start
+        return self.toSort, time_end-time_start, self.__str__()
 
     def __str__(self):
         return "bubble"
@@ -124,7 +124,7 @@ class Mergesort():
         r=self._sort(toSort)
         time_end = time.perf_counter()
         self.time = time_end-time_start
-        return r, time_end-time_start
+        return r, time_end-time_start, self.__str__()
 
     def sort_nomt(self, arr):
         left = 0

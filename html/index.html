@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sorting</title>
+
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+
+    <center>
+        <br>
+        <br>
+        <br>
+        <h1>Sorting Site</h1>
+        <div class="formm">
+            <form method="post" accept-charset="utf-8" enctype="multipart/form-data" target="explorer_iframe">
+
+                <label class="subtitle" >Select file:</label>
+                
+                <br>
+                <br>
+                
+                <input id="fileUpload" name="items" type="file" value="" name="files[]" multiple/>
+                
+                <br>
+                <br>
+                
+                <input type="submit" value="Upload File" name="submit"/>
+                <input type="submit" value="Go Back" name="goback"/>
+                
+                <br>
+                <br>
+
+            </form>
+        </div>
+        <br>
+        <br>
+        <div class="files">
+            <iFrame name=explorer_iframe src="explorer"></iFrame>
+        </div>
+    </center>
+        
+</body>
+</html>

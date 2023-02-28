@@ -1,0 +1,36 @@
+/*  66BBCC 66CC77     CC6688 */
+
+title{
+    position: absolute;
+}
+
+body{
+    background-color: #66BBCC;
+    font-family: monospace;
+}
+
+form{
+    border: solid #CC6688;
+    border-radius: 15px;
+    background:linear-gradient(45deg,#66BBCC,#66CDAA);/*background-color:  #66CDAA;*/
+    justify-content: left;
+    box-shadow: 10px 5px 5px #00000055;
+}
+
+.formm{
+    width:30%;
+}
+
+.list_item{
+    align-self: flex-start;
+}
+
+.subtitle{
+    font-size: 20px;
+}
+
+iFrame{
+    width:600px;
+    height:450px;
+    border:hidden;
+}

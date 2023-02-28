@@ -35,6 +35,7 @@ class Sorter():
         
         for i in range(len(self.sorters)):
             print(self.sorters[i], res[i][1])
+        return res, toSort
 
 
     def parseContentList(self, _list):
