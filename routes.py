@@ -6,10 +6,11 @@
 
 from aiohttp.web import View, RouteTableDef, Response, FileResponse, HTTPTemporaryRedirect
 import os
-import multiprocessing
+import concurrent.futures as fut
+
 
 from Sorter import Sorter
-q = multiprocessing.Queue()
+
 
 routes = RouteTableDef()
 
@@ -90,6 +91,8 @@ class css(View):
 @routes.view("/explorer")
 class explorer(View):
     async def get(self):
+        p = fut.ProcessPoolExecutor()
+
         path = os.path.dirname(__file__)
         data = await self.request.post()
         url = str(self.request.url)
@@ -104,8 +107,14 @@ class explorer(View):
             print(file)
             file = file[1]
 
+            if file.endswith(".py"):
+                py = open(path+"/ex_files/"+file)
+                
+                p.submit(exec, py.read(),{"__file__":os.path.dirname(__file__)+"/ex_files/"})
+                res = self.makelist()
+                return Response(content_type="text/html", text=res, status=200)
+
             content = open(path+"/ex_files/"+file, "r")
-            q.put(content.read())
             return FileResponse(path=path+"/ex_files/"+file)
 
         res = self.makelist()
@@ -118,11 +127,8 @@ class explorer(View):
         path = os.path.dirname(__file__)
         data = await self.request.post()
 
-        print("aa")
         if not "file" in data:
-            print("ee")
             res = self.makelist()
-
             return Response(content_type="text/html", text=res, status=200)
 
         sorter_choices = ["quicksort", "bubble", "mergesort"]
@@ -132,6 +138,7 @@ class explorer(View):
 
         file = data["file"]
         p_file = open(path+"/ex_files/"+file, "r")
+
         content = p_file.read()
 
         sorter = Sorter(chosen_sorters=chosen_sorters)
@@ -143,13 +150,16 @@ class explorer(View):
 
     def makelist(self):
         files = os.listdir("./ex_files")
-
         res = sorting_choice
+
+        if files == []:
+            res+="<p> there are no files in storage to sort </p>"
+
 
         for f in files:
             res+='<input type="radio" value="'+f+'" name="file"/>'+'<label for="'+f+'">'+'<a href="explorer?file={}">{}</a>'.format(f,f, f)+'</label><br>'
-            
-        res += '<br><input type="submit" value="Sort File" name="submit"/><br>' + "</form></center></body></html>" 
+
+        res += '<br><input type="submit" value="Sort File" name="submit"/><br><br>' + "</form></center></body></html>" 
         return res
 
 
@@ -171,7 +181,5 @@ class explorer(View):
 
 
         table+="</table>"
-        html = """<!DOCTYPE html><html><head><link rel="stylesheet" href="index.css"></head><body>
-            {}<br><br>{}
-        </body></html>""".format(timer_results, table)
+        html = """<!DOCTYPE html><html><head><link rel="stylesheet" href="index.css"></head><body>{}<br><br>{}</body></html>""".format(timer_results, table)
         return html

@@ -10,7 +10,7 @@ body{
 }
 
 form{
-    border: solid #CC6688;
+    border: solid #3A1078;
     border-radius: 15px;
     background:linear-gradient(45deg,#66BBCC,#66CDAA);/*background-color:  #66CDAA;*/
     justify-content: left;

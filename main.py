@@ -16,6 +16,9 @@ def server_setup(port):
 def main():
     args = argument_definition()
 
+    newpath = os.path.dirname(__file__)+"/ex_files" 
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
     server_setup(args.port)
 
 
