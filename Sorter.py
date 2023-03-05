@@ -1,7 +1,7 @@
 """ ToDo:
 
     ☑ add multi-threading
-    ☐ add timers
+    ☑ add timers
 
 """
 
