@@ -1,9 +1,3 @@
-""" ToDo ☐☑:
-
-    ☑ agregar hilos a quicksort
-    ☑ agregar hilos a mergesort
-
-"""
 import concurrent.futures as fut
 import time
 

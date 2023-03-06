@@ -1,13 +1,7 @@
-""" ToDo:
-
-    ☑ add multi-threading
-    ☑ add timers
-
-"""
 
 from Sorters import Quicksort, Bubble, Mergesort
 import concurrent.futures as fut
-
+from exceptions import InternalServerError
 
 class Sorter():
     def __init__(self, chosen_sorters=[]):
@@ -76,31 +70,33 @@ class Sorter():
         _format = detect_format(_list)
         _list = _list.translate(str.maketrans('', '', ' '))
 
- 
-        result={}
-        if _format == "csv":
-            _list = _list.split("\n")
-            result = [tuple((i.split(","))) for i in _list ]
+        try:
+            result={}
+            if _format == "csv":
+                _list = _list.split("\n")
+                result = [tuple((i.split(","))) for i in _list ]
 
-        elif _format == "dict":
-            _list = _list.translate(str.maketrans('', '', '}{\n'))
-            _list = _list.split(",")
+            elif _format == "dict":
+                _list = _list.translate(str.maketrans('', '', '}{\n'))
+                _list = _list.split(",")
 
-            result = [( i.split(":")[0], int(i.split(":")[1]) ) for i in _list if "" not in i.split(":") ]
+                result = [( i.split(":")[0], int(i.split(":")[1]) ) for i in _list if "" not in i.split(":") ]
 
-        elif _format == "list":
-            _list = _list.translate(str.maketrans('', '', '[]'))
-            _list = _list.split(",")
-            result = [(i,int(_list[i])) for i in range(len(_list))]
-        elif _format == "string":
-            _list = _list.split("")
-            result = [(i,int(_list[i])) for i in range(len(_list))]
-        elif _format == "column":
-            _list = _list.split("\n")
-            result = [(i,int(_list[i])) for i in range(len(_list))]
-        elif _format == "invalid":
-            raise Exception()
-        else:
-            raise Exception()
-        
-        return result
+            elif _format == "list":
+                _list = _list.translate(str.maketrans('', '', '[]'))
+                _list = _list.split(",")
+                result = [(i,int(_list[i])) for i in range(len(_list))]
+            elif _format == "string":
+                _list = _list.split("")
+                result = [(i,int(_list[i])) for i in range(len(_list))]
+            elif _format == "column":
+                _list = _list.split("\n")
+                result = [(i,int(_list[i])) for i in range(len(_list))]
+            elif _format == "invalid":
+                raise InternalServerError("invalid format")
+            else:
+                raise InternalServerError("format not recognized")
+            
+            return result
+        except Exception as e:
+            raise InternalServerError("invalid filetype")

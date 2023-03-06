@@ -24,6 +24,13 @@
 ```
 
 ```bash
-  python3 main.py [-h] [-p PORT]
+  python3 main.py [-h] [-p PORT] [-d DIRECTORY]
 ```
 
+### **Frontend**
+
+![Frontend](docs/frontend_docs.png)
+
+### **Backend**
+
+![Backend](docs/backend_docs.png)

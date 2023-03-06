@@ -1,13 +1,7 @@
-""" ToDo:
-
-    - add support for multiple file upload
-
-"""
-
 from aiohttp.web import View, RouteTableDef, Response, FileResponse, HTTPTemporaryRedirect
 import os
 import concurrent.futures as fut
-
+from exceptions import InternalServerError
 
 from Sorter import Sorter
 
@@ -67,8 +61,6 @@ def getRoutes(file_dir):
 
             items = data["items"]
 
-            #if not sorter_choices: return Response(text="no sorter chosen", status=501)
-
             if hasattr(items, "file"):
                 p_file = items.file
                 content = p_file.read().decode("utf-8")
@@ -79,8 +71,6 @@ def getRoutes(file_dir):
                 return Response(text="no file chosen", status=501)
 
             return HTTPTemporaryRedirect("/explorer")
-            #return Response(text=str(chosen_sorters), status=200)
-            #return FileResponse(path=path + '/html/result.html', status=200)
 
 
     @routes.view("/index.css")
@@ -144,11 +134,13 @@ def getRoutes(file_dir):
             content = p_file.read()
 
             sorter = Sorter(chosen_sorters=chosen_sorters)
-            res = sorter.sort(content)
 
+            try:
+                res = sorter.sort(content)
+                return Response(content_type="text/html", text=self.resultHTML(res), status=200)
+            except InternalServerError:
+                return Response(content_type="text/html", text="<center><h3>the uploaded file is not supported</h3></center>", status=500)
 
-            return Response(content_type="text/html", text=self.resultHTML(res), status=200)
-            #return FileResponse(path=path + '/html/result.html', status=200)
 
         def makelist(self):
             files = os.listdir("."+file_dir)
