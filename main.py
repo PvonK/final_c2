@@ -6,7 +6,7 @@ import os
 
 
 def server_setup(port, directory):
-    HOST, PORT = "localhost", port
+    HOST, PORT = "127.0.0.1", port
 
     app = web.Application()
     app.router.add_routes(getRoutes(directory))
